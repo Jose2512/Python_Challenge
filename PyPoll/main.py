@@ -1,5 +1,8 @@
 import csv
-
+loope=0
+candidates = []
+votes = []
+percentages = []
 election_data = "election_data.csv"
 voter_counter = 0
 with open (election_data, "r") as csvfile:
@@ -7,29 +10,28 @@ with open (election_data, "r") as csvfile:
     csv_header = next(csvfile)
     for row in csvreader:
         voter_counter += 1
-       # total_PL += int(row[1])
-        #if int(row[1]) < greatest_dec:
-         #   greatest_dec = int(row[1])
-          #  greatest_dec_m = row[0]
-        #if int(row[1]) > greatest_inc:
-         #   greatest_inc = int(row[1])
-          #  greatest_inc_m = row[0]
+        if row[2] in candidates:
+            pass
+        else:
+            candidates.append(row[2])
+            votes.append(0)
+        index = candidates.index(row[2])
+        votes[index] +=1
+    for x in candidates:
+        #percentages.append(round(votes[loope]/voter_counter*100,2))
+        percentages.append(votes[loope]/voter_counter)
+        loope += 1
+    winner = candidates[votes.index(max(votes))]
 
-#print(f"""Financial Analysis
-#-------------------------------------   
-#Total months: {month_counter}
-#Total: ${total_PL}
-#Average change: ${round(total_PL/month_counter,2)}
-#Greatest Increase in Profits: {greatest_dec_m} (${greatest_dec})
-#Greatest Decrease in Profits: {greatest_inc_m} (${greatest_inc})
-#""")
-#output_file = open("Financial_Analysis.txt", "w+")
-#output_file.write (f"""Financial Analysis
-#-------------------------------------   
-#Total months: {month_counter}
-#Total: ${total_PL}
-#Average change: ${round(total_PL/month_counter,2)}
-#Greatest Increase in Profits: {greatest_dec_m} (${greatest_dec})
-#Greatest Decrease in Profits: {greatest_inc_m} (${greatest_inc})
-#""")
-print(voter_counter)
+print(f"""Election Results
+-----------------------------
+Total votes : {voter_counter:,}
+-----------------------------""")
+anotherlooper = 0
+for candidate in candidates:
+    print(f"{candidates[anotherlooper]}: {percentages[anotherlooper]:.2%} ({votes[anotherlooper]:,})")
+    anotherlooper +=1
+print(f"""-----------------------------
+Winner : {winner}
+-----------------------------
+""")
